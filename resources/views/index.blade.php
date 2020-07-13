@@ -129,12 +129,25 @@
 
 				<ul>
 					<li><a href="#about">Ideology</a></li>
-					<li><a href="#login">login</a></li>
-                    <li><a href="#">Register</a></li>
+                    <li><a href="#contact">contact us</a></li>
+					@guest
+
+                    <li>
+                        <a href=" {{ route('login') }} " >{{ __('Login') }}</a>
+                    </li>
+
+                    <li >
+                        <a href=" {{ route('register') }} " > {{ __('Join Now') }} </a>
+                    </li>
+
+                @else
+                <li >
+                        <a href=" {{ url('dashboard') }} " > {{ __('Dashboard') }} </a>
+                    </li>
+                @endguest
 <!-- {{--					<li><a href="#faq">faq</a></li>
 {{--					<li><a href="#pricing">packages</a></li>
 {{--					<li><a class="buy" href="#"><i class="icon-right-big"></i>purchase</a></li>--}} -->
-					<li><a href="#contact">contact us</a></li>
 
 
 				</ul>
