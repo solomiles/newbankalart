@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RegisterController extends Controller
 {
@@ -48,7 +49,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            
+
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -75,14 +76,24 @@ class RegisterController extends Controller
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
             return $randomString;
-            
+
         }
 
         $data['code'] = generateRandomString();
 
+        $newEmail = $data['email'];
+
+        $text = "Congratulations\n <b>".$newEmail."</b>\n". "Welcome to BankAlarts\n";
+
+        Telegram::sendMessage([
+            'chat_id' => env('TELEGRAM_CHANNEL_ID', '-403000664'),
+            'parse_mode' => 'HTML',
+            'text' => $text
+        ]);
+
         return User::create([
             'name' => $data['name'],
-            
+
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'phone' => $data['phone'],
@@ -91,7 +102,7 @@ class RegisterController extends Controller
             'account_name' => $data['account_name'],
             'account_number' => $data['account_number'],
             'code' => $data['code'],
-            
+
         ]);
     }
 }

@@ -6,6 +6,7 @@ use App\RegFee;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class DashboardController extends Controller
 {
@@ -19,10 +20,12 @@ class DashboardController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index(Request $request)
     {
         //
+        // dd($response = Telegram::getUpdates());
+
         $id = $request->user()->id;
         // $paid_reg_fee = $user->paid_registration_fee;
         $result = User::find($id);
@@ -40,10 +43,10 @@ class DashboardController extends Controller
 
             return view('Dashboard.index',compact('results','ghResults','id'));
         }
-    
+
     }
 
-    
+
     /**
      * Show the form for creating a new resource.
      *
